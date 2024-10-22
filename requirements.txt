@@ -1,2 +1,8 @@
 PyYAML>3.11
 nltk
+NumPy
+PyTorch
+Plotly
+Bokeh
+pywx
+tls-python
