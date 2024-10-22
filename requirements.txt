@@ -1,6 +1,5 @@
 PyYAML>3.11
 nltk>3.8.2
 NumPy>1.21.6
-PyTorch
 Plotly
 Bokeh
