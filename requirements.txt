@@ -4,5 +4,4 @@ NumPy
 PyTorch
 Plotly
 Bokeh
-pywx
 tls-python
