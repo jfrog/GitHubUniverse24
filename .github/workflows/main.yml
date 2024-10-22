@@ -32,8 +32,11 @@ jobs:
                   
             - name: Checkout the repository    
               uses: actions/checkout@v4
-              
-           
+
+            - name:  jfrog cli version
+              run: |
+                jfrog -v
+            
             - name: configure jfrog environment
               run: |
                 jf pip-config --repo-resolve=python-virtual    
