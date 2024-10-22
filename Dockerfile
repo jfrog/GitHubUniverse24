@@ -1,4 +1,4 @@
-FROM alpine:3.18.6
+FROM python:3.8.5-buster
 
 RUN mkdir pythonExample
 
