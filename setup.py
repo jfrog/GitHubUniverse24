@@ -8,7 +8,7 @@ setup(
     description='Project example for building Python project with JFrog products.',
     author='JFrog',
     author_email='jfrog@jfrog.com',
-    url='https://github.com/carmithersh/carmit-testing',
+    url='https://github.com/jfrog/GitHubUniverse24',
     packages=['pythonExample'],
     install_requires=['PyYAML>3.11', 'nltk'],
 )
