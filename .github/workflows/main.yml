@@ -91,7 +91,7 @@ jobs:
                 jf build-scan --fail=false
             
     provenance:
-      needs: [build-publish-python]
+      needs: [build-publish-npm]
       uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.10.0
       with:
         image:  ${{ needs.build-publish-python.outputs.image }}
