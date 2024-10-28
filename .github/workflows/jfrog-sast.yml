@@ -47,6 +47,15 @@ jobs:
         jf -v
         jf audit --sast --format=sarif > jfrog_sast.sarif
 
+    - name: Temporary - adjust tool name in SARIF
+        # Temporary workaround until autofix deploys a new version that recognises all variants of the JFrog tool name,
+        # including the variant with the frog emoji
+      run: |
+        cat jfrog.sarif | jq '.runs[0].tool.driver.name = "JFrog SAST"' > jfrog.sarif.tmp
+        mv jfrog.sarif.tmp jfrog.sarif
+        
+    - name: Pretty print SARIF
+      run: cat jfrog.sarif | jq .
 
     - name: Upload output to generate autofix
       uses: github/codeql-action/upload-sarif@v3
