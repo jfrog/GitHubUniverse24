@@ -8,7 +8,7 @@ permissions:
   contents: read #Ability to read the contents permission
   security-events: write # Required for uploading code scanning 
 jobs:
-    build-publish-python:
+    build-publish-npm:
         runs-on: ubuntu-latest
         env:
           DOCKER_REPO: 'docker-prod-local'
