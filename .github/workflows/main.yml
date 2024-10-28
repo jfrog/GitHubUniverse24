@@ -1,4 +1,4 @@
-name: GitHub Universe 24 - Sample Python Project
+name: GitHub Universe 24 - Sample NPM Project
 on: workflow_dispatch
 
 permissions:
