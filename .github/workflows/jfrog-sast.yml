@@ -10,9 +10,7 @@ name: "JFrog SAST Scan"
 
 on:
   push:
-    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ]
   schedule:
     - cron: '39 23 * * 6'
   workflow_dispatch:
