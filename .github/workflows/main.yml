@@ -48,6 +48,7 @@ jobs:
                 jf rt build-collect-env universe-npm-build 1.0.${{github.run_number}}
                 jf rt npm-publish --build-name=universe-npm-build --build-number=1.0.${{github.run_number}}
                 jf audit --vuln
+                jf scan --vuln
                 jf rt build-publish universe-npm-build 1.0.${{github.run_number}}
                 jf rt build-scan universe-npm-build 1.0.${{github.run_number}}
                 jf rt build-promote universe-npm-build 1.0.${{github.run_number}} lego-npm-prod-local --status=production
