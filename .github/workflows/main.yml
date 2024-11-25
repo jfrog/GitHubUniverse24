@@ -1,4 +1,4 @@
-name: GitHub Universe 24 - Sample Python Project
+name: GitHub Universe 24 - Sample NPM Project
 on: workflow_dispatch
 
 permissions:
@@ -8,7 +8,7 @@ permissions:
   contents: read #Ability to read the contents permission
   security-events: write # Required for uploading code scanning 
 jobs:
-    build-publish-python:
+    build-publish-npm:
         runs-on: ubuntu-latest
         env:
           DOCKER_REPO: 'docker-prod-local'
@@ -39,24 +39,19 @@ jobs:
             
             - name: configure jfrog environment
               run: |
-                jf pip-config --repo-resolve=python-virtual    
-                
-            - name: configure environment
-              run: |                      
-                python3 -m pip install --upgrade pip setuptools wheel sigstore
-                wheel -h
-                pip show setuptools
-                echo $VIRTUAL_ENV
+                jf npmc --repo-resolve=npm --repo-deploy=npm     
                 
             - name: build project
               run: |                      
-                jf pip install -r requirements.txt  --module=jfrog-python-example
-                python setup.py sdist bdist_wheel
-                cd dist && echo "hashes=$(sha256sum * | base64 -w0)" >> $GITHUB_OUTPUT
-
-            - name: publish python package
-              run: |
-                jf rt u dist/ python-virtual/example-projects/ --module=jfrog-python-example
+                jf npm install --build-name=universe-npm-build --build-number=1.0.${{github.run_number}}
+                jf rt build-add-git universe-npm-build 1.0.${{github.run_number}}
+                jf rt build-collect-env universe-npm-build 1.0.${{github.run_number}}
+                jf rt npm-publish --build-name=universe-npm-build --build-number=1.0.${{github.run_number}}
+                jf audit --vuln
+                jf scan --vuln
+                jf rt build-publish universe-npm-build 1.0.${{github.run_number}}
+                jf rt build-scan universe-npm-build 1.0.${{github.run_number}}
+                jf rt build-promote universe-npm-build 1.0.${{github.run_number}} lego-npm-prod-local --status=production
 
             - name: Set up Docker Buildx
               uses: docker/setup-buildx-action@v3    
@@ -96,14 +91,3 @@ jobs:
             - name: build scan
               run: |            
                 jf build-scan --fail=false
-            
-    provenance:
-      needs: [build-publish-python]
-      uses: slsa-framework/slsa-github-generator/.github/workflows/generator_container_slsa3.yml@v1.10.0
-      with:
-        image:  ${{ needs.build-publish-python.outputs.image }}
-        digest: ${{ needs.build-publish-python.outputs.digest }}
-        private-repository: true
-      secrets:
-        registry-username: ${{ vars.JF_USER }}
-        registry-password: ${{ secrets.JF_ACCESS_TOKEN }}
